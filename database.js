@@ -3,11 +3,11 @@ import pg from 'pg';
 async function connectDB() {
     // DB setup
     const client = new pg.Client({
-        host: process.env.DATABASE_HOST,
-        database: process.env.DATABASE_NAME,
-        username: process.env.DATABASE_USER,
-        password: process.env.DATABASE_PASSWORD,
-        ssl: false
+        host: "ep-sparkling-mountain-a4vljgrs.us-east-1.pg.koyeb.app",
+        database: "koyebdb",
+        username: "admin",
+        password: "yJY7NFrW1Zit",
+        ssl: true
     });
     await client.connect();
 
