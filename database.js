@@ -2,13 +2,18 @@ import pg from 'pg';
 
 async function connectDB() {
     // DB setup
-    const client = new pg.Client({
-        host: process.env.DATABASE_HOST,
-        database: process.env.DATABASE_NAME,
-        username: process.env.DATABASE_USER,
-        password: process.env.DATABASE_PASSWORD,
-        ssl: true
-    });
+    let client;
+    if (process.env.CONNECTION_STRING) {
+        let conn_string = process.env.CONNECTION_STRING;
+        client = new pg.Client({ conn_string });
+    } else {
+        client = new pg.Client({
+            host: process.env.DATABASE_HOST,
+            database: process.env.DATABASE_NAME,
+            username: process.env.DATABASE_USER,
+            password: process.env.DATABASE_PASSWORD,
+        });
+    }
     await client.connect();
 
     if (!(await dbCheck(client))) {
