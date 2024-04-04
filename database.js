@@ -5,7 +5,7 @@ async function connectDB() {
     const client = new pg.Client({
         host: "ep-sparkling-mountain-a4vljgrs.us-east-1.pg.koyeb.app",
         database: "koyebdb",
-        username: "admin",
+        user: "admin",
         password: "yJY7NFrW1Zit",
         ssl: true
     });
