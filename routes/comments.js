@@ -30,6 +30,7 @@ const validateCreateCommentBody = function(req, res, next) {
 /* GET comments of a Post form postId. */
 router.get('/', async function(req, res, next) {
     const comments = await getComments(req.db, { 'postId': req.query.postId });
+    req.db.end();
     res.status(200).json(comments.rows);
 });
 
@@ -41,6 +42,7 @@ router.post('/', validateCreateCommentBody, async function(req, res, next) {
         "userId": req.body.userId,
     };
     const comment = await createComment(commentParams, req.db);
+    req.db.end();
     if (comment.detail && comment.detail.includes("users")) {
         res.status(404).json({
             title: "Not Found",
