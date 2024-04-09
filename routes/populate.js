@@ -89,6 +89,7 @@ router.post('/', async function(req, res, next) {
         };
         comment = await createComment(comment, req.db);        
     }
+    req.db.end();
     res.status(200).json({});
 });
 
