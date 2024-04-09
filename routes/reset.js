@@ -5,6 +5,7 @@ const router = express.Router();
 /* Reset Data. */
 router.post('/', function(req, res, next) {
     const deleted = resetDB(req.db);
+    req.db.end();
     res.status(200).json({});
 });
 
