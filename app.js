@@ -23,7 +23,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 // db connection
-app.use(function(req, res, next) {
+app.use(async function(req, res, next) {
     const client = await connectDB();
     req.db = client;
     next()
