@@ -20,6 +20,7 @@ const validateCreateUserBody = function(req, res, next) {
 /* GET users listing. */
 router.get('/', async function(req, res, next) {
     const users = await getUsers(req.db, {});
+    req.db.end();
     res.status(200).json(users.rows);
 });
 
@@ -30,6 +31,7 @@ router.post('/', validateCreateUserBody, async function(req, res, next) {
         'avatar': req.body.avatar
     };
     const user = await createUser(userParams, req.db);
+    req.db.end();
     res.status(201).json(user.rows[0]);
 });
 
@@ -38,6 +40,7 @@ router.get('/:id', param('id').isNumeric(), async function(req, res, next) {
     const valResult = validationResult(req);
     if (valResult.isEmpty()) {
         const user = await getUsers(req.db, {'userId': req.params.id})
+        req.db.end();
         if (user.rows.length === 0) {
             let err = new Error();
             err.message = "User not Found";
@@ -47,6 +50,7 @@ router.get('/:id', param('id').isNumeric(), async function(req, res, next) {
             res.status(200).json(user.rows[0]);
         }
     } else {
+        req.db.end();
         res.send({ errors: valResult.array() });
     }
 });
@@ -56,8 +60,10 @@ router.get('/:id/posts', param('id').isNumeric(), async function(req, res, next)
     const valResult = validationResult(req);
     if (valResult.isEmpty()) {
         const posts = await getPosts(req.db, {'userId': req.params.id})
+        req.db.end();
         res.status(200).json(posts.rows);
     } else {
+        req.db.end();
         res.send({ errors: valResult.array() });
     }
 });
@@ -67,8 +73,10 @@ router.get('/:id/comments', param('id').isNumeric(), async function(req, res, ne
     const valResult = validationResult(req);
     if (valResult.isEmpty()) {
         const comments = await getComments(req.db, {'userId': req.params.id})
+        req.db.end();
         res.status(200).json(comments.rows);
     } else {
+        req.db.end();
         res.send({ errors: valResult.array() });
     }
     
